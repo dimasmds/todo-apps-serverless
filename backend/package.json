@@ -9,7 +9,7 @@
     "test:watch:all": "jest ./src --watchAll -i",
     "lint": "eslint ./src --ext .ts",
     "dynamodb:install": "sls dynamodb install",
-    "dynamodb:start" : "sls dynamodb start",
+    "dynamodb:start": "sls dynamodb start",
     "start:offline": "sls offline",
     "deploy": "sls deploy -v"
   },
@@ -20,13 +20,15 @@
     "aws-sdk": "^2.1032.0",
     "aws-xray-sdk": "^3.3.4",
     "dotenv": "^10.0.0",
-    "instances-container": "^2.0.4"
+    "instances-container": "^2.0.4",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.15.8",
     "@babel/preset-typescript": "^7.15.0",
     "@types/aws-lambda": "^8.10.85",
     "@types/jest": "^27.0.2",
+    "@types/uuid": "^8.3.3",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^7.32.0",
