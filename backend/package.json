@@ -7,17 +7,25 @@
     "test": "jest ./src -i --coverage",
     "test:watch": "jest ./src --watch -i",
     "test:watch:all": "jest ./src --watchAll -i",
-    "lint": "eslint ./src --ext .ts"
+    "lint": "eslint ./src --ext .ts",
+    "dynamodb:install": "sls dynamodb install",
+    "dynamodb:start" : "sls dynamodb start",
+    "start:offline": "sls offline",
+    "deploy": "sls deploy -v"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-lambda": "^1.0.7",
+    "aws-sdk": "^2.1032.0",
+    "aws-xray-sdk": "^3.3.4",
     "dotenv": "^10.0.0",
     "instances-container": "^2.0.4"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.15.8",
     "@babel/preset-typescript": "^7.15.0",
+    "@types/aws-lambda": "^8.10.85",
     "@types/jest": "^27.0.2",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
@@ -25,7 +33,13 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.25.2",
     "jest": "^27.3.0",
+    "serverless": "^2.66.2",
+    "serverless-dynamodb-local": "^0.2.40",
+    "serverless-offline": "^8.2.0",
+    "serverless-webpack": "^5.2.0",
+    "ts-loader": "^5.3.3",
     "ts-node": "^10.3.0",
-    "typescript": "^4.4.4"
+    "typescript": "^4.4.4",
+    "webpack": "^4.29.6"
   }
 }
