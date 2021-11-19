@@ -23,16 +23,16 @@ class TodoCreation {
     TodoCreation.verifyPayload(payload);
 
     const { name, dueDate, userId } = payload;
-    const id = await this.idGenerator.generate();
+    const todoId = await this.idGenerator.generate();
 
     const newTodo = {
       userId,
-      todoId: id,
+      todoId,
       name,
       createdAt: new Date().toISOString(),
       dueDate: new Date(dueDate).toISOString(),
       done: false,
-      attachmentUrl: `https://${config.bucket.attachment.name}.s3.amazonaws.com/${id}`,
+      attachmentUrl: `https://${config.bucket.attachment.name}.s3.amazonaws.com/${todoId}`,
     };
 
     await this.todoRepository.persist(newTodo);
