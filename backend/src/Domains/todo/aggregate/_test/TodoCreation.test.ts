@@ -37,6 +37,7 @@ describe('TodoCreation', () => {
 
       const newTodo = await todoCreation.create(payload);
 
+      expect(mockIdGenerator.generate).toBeCalled();
       expect(mockTodoRepository.persist).toBeCalledWith(newTodo);
 
       expect(newTodo).toEqual({
