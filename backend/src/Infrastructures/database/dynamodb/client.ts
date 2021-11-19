@@ -13,5 +13,6 @@ const createDynamoDbClient = () => {
   const XAWS = AWSXray.captureAWS(AWS);
   return new XAWS.DynamoDB.DocumentClient();
 };
+
 const client = createDynamoDbClient();
 export default client;
