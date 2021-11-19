@@ -1,0 +1,11 @@
+{
+  "name": "todo-apps-serverless-backend",
+  "version": "1.0.0",
+  "description": "Todo Apps Serverless Backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
