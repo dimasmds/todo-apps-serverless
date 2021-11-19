@@ -6,6 +6,7 @@ import TodoRepository from '../repository/TodoRepository';
 type TodoCreationPayload = {
   name: string;
   dueDate: string;
+  userId: string
 }
 
 class TodoCreation {
@@ -21,10 +22,11 @@ class TodoCreation {
   public async create(payload: TodoCreationPayload): Promise<Todo> {
     TodoCreation.verifyPayload(payload);
 
-    const { name, dueDate } = payload;
+    const { name, dueDate, userId } = payload;
     const id = await this.idGenerator.generate();
 
     const newTodo = {
+      userId,
       todoId: id,
       name,
       createdAt: new Date().toISOString(),

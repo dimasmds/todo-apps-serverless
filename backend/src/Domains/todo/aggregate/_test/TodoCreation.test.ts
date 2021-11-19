@@ -12,6 +12,7 @@ describe('TodoCreation', () => {
       await expect(todoCreation.create({
         name: 'test',
         dueDate: 'test',
+        userId: 'user-123',
       })).rejects.toThrowError('TODO_CREATION.DUE_DATE_SHOULD_YYYY-MM-DD_FORMAT');
     });
 
@@ -22,6 +23,7 @@ describe('TodoCreation', () => {
       await expect(todoCreation.create({
         name: 'test',
         dueDate: yesterdayInYYYYMMDD,
+        userId: 'user-123',
       })).rejects.toThrowError('TODO_CREATION.DUE_DATE_SHOULD_GREATER_THAN_NOW');
     });
 
@@ -30,6 +32,7 @@ describe('TodoCreation', () => {
         name: 'test',
         dueDate: new Date(new Date().setDate(new Date().getDate() + 1))
           .toISOString().split('T')[0],
+        userId: 'user-123',
       };
 
       mockIdGenerator.generate = jest.fn(() => Promise.resolve('abc-def'));
@@ -46,6 +49,7 @@ describe('TodoCreation', () => {
         dueDate: new Date(payload.dueDate).toISOString(),
         createdAt: expect.any(String),
         done: false,
+        userId: 'user-123',
         attachmentUrl: 'https://test-bucket.s3.amazonaws.com/abc-def',
       });
     });
