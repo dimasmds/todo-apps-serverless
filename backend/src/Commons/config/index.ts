@@ -13,6 +13,11 @@ const config = {
       secret: process.env.ACCESS_TOKEN_SECRET,
     },
   },
+  dynamodb: {
+    todos: {
+      name: process.env.TODOS_TABLE,
+    },
+  },
 };
 
 export default config;
