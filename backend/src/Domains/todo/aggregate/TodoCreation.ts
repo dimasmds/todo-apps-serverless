@@ -50,9 +50,6 @@ class TodoCreation {
     if (!dueDateString.match(regEx)) return false;
 
     const d = new Date(dueDateString);
-    const dNum = d.getTime();
-
-    if (!dNum && dNum !== 0) return false;
 
     return d.toISOString().slice(0, 10) === dueDateString;
   }
