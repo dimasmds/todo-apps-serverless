@@ -19,6 +19,9 @@ const config = {
       name: process.env.TODOS_TABLE,
     },
   },
+  awsSdk: {
+    region: process.env.AWS_REGION,
+  },
 };
 
 export default config;
