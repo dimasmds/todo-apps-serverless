@@ -5,6 +5,7 @@ import Todo from '../../Domains/todo/entities/Todo';
 import TodoCreation from '../../Domains/todo/aggregate/TodoCreation';
 import JwtTokenize from '../tokenize/JwtTokenize';
 import config from '../../Commons/config';
+import SecretManager from '../security/SecretManager';
 
 type UseCasePayload = {
   name: string;
@@ -17,18 +18,28 @@ class TodoCreationUseCase {
 
   private readonly todoRepository: TodoRepository;
 
-  private jwtTokenize: JwtTokenize;
+  private readonly jwtTokenize: JwtTokenize;
 
-  constructor({ idGenerator, todoRepository, jwtTokenize }: UseCaseDependencies) {
+  private readonly secretManager: SecretManager;
+
+  constructor({
+    idGenerator, todoRepository, jwtTokenize, secretManager,
+  }: UseCaseDependencies) {
     this.idGenerator = idGenerator;
     this.todoRepository = todoRepository;
     this.jwtTokenize = jwtTokenize;
+    this.secretManager = secretManager;
   }
 
   async execute(payload: UseCasePayload): Promise<Todo> {
     const { accessToken } = payload;
+    const secret = await this.secretManager.getSecret(
+      config.secret.auth0.secretId,
+      config.secret.auth0.secretField,
+    );
+
     const isTokenVerified = await this.jwtTokenize.verify(
-      accessToken, config.auth.accessToken.secret,
+      accessToken, secret,
     );
 
     if (!isTokenVerified) throw new Error('TODO_CREATION_USE_CASE.ACCESS_TOKEN_INVALID');

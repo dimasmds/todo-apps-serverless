@@ -8,9 +8,10 @@ const config = {
       name: process.env.ATTACHMENT_BUCKET_NAME,
     },
   },
-  auth: {
-    accessToken: {
-      secret: process.env.ACCESS_TOKEN_SECRET,
+  secret: {
+    auth0: {
+      secretId: process.env.AUTH_0_SECRET_ID,
+      secretField: process.env.AUTH_0_SECRET_FIELD,
     },
   },
   dynamodb: {
