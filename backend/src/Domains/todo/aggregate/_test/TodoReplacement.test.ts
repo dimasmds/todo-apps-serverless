@@ -1,10 +1,10 @@
-import TodoUpdating from '../TodoUpdating';
+import TodoReplacement from '../TodoReplacement';
 import TodoRepository from '../../repository/TodoRepository';
 import Todo from '../../entities/Todo';
 
-describe('TodoUpdating', () => {
+describe('TodoReplacement', () => {
   const mockTodoRepository = <TodoRepository>{};
-  const todoUpdating = new TodoUpdating(mockTodoRepository);
+  const todoReplacement = new TodoReplacement(mockTodoRepository);
 
   const todayInISOString = new Date().toISOString();
   const tomorrowInISOString = new Date(
@@ -21,7 +21,7 @@ describe('TodoUpdating', () => {
     attachmentUrl: '',
   };
 
-  describe('update', () => {
+  describe('replace', () => {
     it('should throw error when due date got invalid format', async () => {
       const payload = {
         name: 'newName',
@@ -29,7 +29,7 @@ describe('TodoUpdating', () => {
         done: true,
       };
 
-      await expect(todoUpdating.update(currentTodo, payload)).rejects.toThrowError('TODO_UPDATE.DUE_DATE_SHOULD_YYYY-MM-DD_FORMAT');
+      await expect(todoReplacement.replace(currentTodo, payload)).rejects.toThrowError('TODO_REPLACEMENT.DUE_DATE_SHOULD_YYYY-MM-DD_FORMAT');
     });
 
     it('should throw error when due date is in the past', async () => {
@@ -39,10 +39,10 @@ describe('TodoUpdating', () => {
         done: true,
       };
 
-      await expect(todoUpdating.update(currentTodo, payload)).rejects.toThrowError('TODO_UPDATE.DUE_DATE_SHOULD_BE_AFTER_CREATED_DATE');
+      await expect(todoReplacement.replace(currentTodo, payload)).rejects.toThrowError('TODO_REPLACEMENT.DUE_DATE_SHOULD_BE_AFTER_CREATED_DATE');
     });
 
-    it('should update the todo', async () => {
+    it('should replace the todo', async () => {
       const tomorrowInYYYYMMDD = new Date(
         new Date().getTime() + 24 * 60 * 60 * 1000,
       ).toISOString().split('T')[0];
@@ -55,7 +55,7 @@ describe('TodoUpdating', () => {
 
       mockTodoRepository.update = jest.fn(() => Promise.resolve());
 
-      await todoUpdating.update(currentTodo, payload);
+      await todoReplacement.replace(currentTodo, payload);
 
       expect(mockTodoRepository.update).toBeCalledWith({
         todoId: currentTodo.todoId,

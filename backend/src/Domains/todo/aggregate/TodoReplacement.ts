@@ -2,21 +2,21 @@ import TodoRepository from '../repository/TodoRepository';
 import Todo from '../entities/Todo';
 import TodoUpdate from '../entities/TodoUpdate';
 
-type TodoUpdatePayload = {
+type TodoReplacementPayload = {
   name: string,
   done: boolean,
   dueDate: string
 };
 
-class TodoUpdating {
+class TodoReplacement {
   private todoRepository: TodoRepository;
 
   constructor(todoRepository: TodoRepository) {
     this.todoRepository = todoRepository;
   }
 
-  async update(currentTodo: Todo, payload: TodoUpdatePayload) {
-    TodoUpdating.verifyPayload(currentTodo, payload);
+  async replace(currentTodo: Todo, payload: TodoReplacementPayload) {
+    TodoReplacement.verifyPayload(currentTodo, payload);
 
     const { todoId } = currentTodo;
     const { name, done, dueDate } = payload;
@@ -31,12 +31,12 @@ class TodoUpdating {
     await this.todoRepository.update(todoUpdate);
   }
 
-  private static verifyPayload(currentTodo: Todo, payload: TodoUpdatePayload) {
+  private static verifyPayload(currentTodo: Todo, payload: TodoReplacementPayload) {
     const { dueDate } = payload;
     const { createdAt } = currentTodo;
 
-    if (!TodoUpdating.verifyDueDateFormat(dueDate)) throw new Error('TODO_UPDATE.DUE_DATE_SHOULD_YYYY-MM-DD_FORMAT');
-    if (!TodoUpdating.verifyValidationDueDate(createdAt, dueDate)) throw new Error('TODO_UPDATE.DUE_DATE_SHOULD_BE_AFTER_CREATED_DATE');
+    if (!TodoReplacement.verifyDueDateFormat(dueDate)) throw new Error('TODO_REPLACEMENT.DUE_DATE_SHOULD_YYYY-MM-DD_FORMAT');
+    if (!TodoReplacement.verifyValidationDueDate(createdAt, dueDate)) throw new Error('TODO_REPLACEMENT.DUE_DATE_SHOULD_BE_AFTER_CREATED_DATE');
   }
 
   private static verifyDueDateFormat(dueDateString: string) {
@@ -51,4 +51,4 @@ class TodoUpdating {
   }
 }
 
-export default TodoUpdating;
+export default TodoReplacement;
