@@ -34,8 +34,8 @@ class TodoCreationUseCase {
   async execute(payload: UseCasePayload): Promise<Todo> {
     const { accessToken } = payload;
     const secret = await this.secretManager.getSecret(
-      config.secret.auth0.secretId,
-      config.secret.auth0.secretField,
+      config.secret.secretId,
+      config.secret.field.auth0,
     );
 
     const isTokenVerified = await this.jwtTokenize.verify(

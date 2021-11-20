@@ -31,7 +31,7 @@ describe('TodoCreationUseCase', () => {
 
       await expect(todoCreationUseCase.execute(payload)).rejects.toThrowError('TODO_CREATION_USE_CASE.ACCESS_TOKEN_INVALID');
       expect(mockSecretManager.getSecret).toBeCalledWith(
-        config.secret.auth0.secretId, config.secret.auth0.secretField,
+        config.secret.secretId, config.secret.field.auth0,
       );
       expect(mockJwtTokenize.verify)
         .toBeCalledWith(payload.accessToken, '123');

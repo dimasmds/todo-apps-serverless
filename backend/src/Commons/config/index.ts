@@ -9,9 +9,9 @@ const config = {
     },
   },
   secret: {
-    auth0: {
-      secretId: process.env.AUTH_0_SECRET_ID,
-      secretField: process.env.AUTH_0_SECRET_FIELD,
+    secretId: process.env.SECRET_ID,
+    field: {
+      auth0: process.env.AUTH_0_SECRET_FIELD,
     },
   },
   dynamodb: {
