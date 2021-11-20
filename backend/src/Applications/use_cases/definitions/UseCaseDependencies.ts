@@ -4,10 +4,10 @@ import JwtTokenize from '../../tokenize/JwtTokenize';
 import SecretManager from '../../security/SecretManager';
 
 type UseCaseDependencies = {
-  todoRepository: TodoRepository,
-  idGenerator: IdGenerator
-  jwtTokenize: JwtTokenize
-  secretManager: SecretManager
+  todoRepository?: TodoRepository,
+  idGenerator?: IdGenerator
+  jwtTokenize?: JwtTokenize
+  secretManager?: SecretManager
 }
 
 export default UseCaseDependencies;

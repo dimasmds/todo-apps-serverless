@@ -2,44 +2,20 @@ import TodoCreationUseCase from '../TodoCreationUseCase';
 import TodoRepository from '../../../Domains/todo/repository/TodoRepository';
 import IdGenerator from '../../generator/IdGenerator';
 import JwtTokenize from '../../tokenize/JwtTokenize';
-import config from '../../../Commons/config';
-import SecretManager from '../../security/SecretManager';
 
 describe('TodoCreationUseCase', () => {
   const fakeTodoRepository = <TodoRepository>{};
   const fakeIdGenerator = <IdGenerator>{};
   const mockJwtTokenize = <JwtTokenize>{};
-  const mockSecretManager = <SecretManager>{};
 
   const todoCreationUseCase = new TodoCreationUseCase({
     idGenerator: fakeIdGenerator,
     todoRepository: fakeTodoRepository,
     jwtTokenize: mockJwtTokenize,
-    secretManager: mockSecretManager,
   });
 
   describe('execute', () => {
-    it('should throw error when accessToken is not verified', async () => {
-      mockSecretManager.getSecret = jest.fn(() => Promise.resolve('123'));
-      mockJwtTokenize.verify = jest.fn(() => Promise.resolve(false));
-
-      const payload = {
-        name: 'test',
-        dueDate: '2020-10-11',
-        accessToken: 'abc',
-      };
-
-      await expect(todoCreationUseCase.execute(payload)).rejects.toThrowError('TODO_CREATION_USE_CASE.ACCESS_TOKEN_INVALID');
-      expect(mockSecretManager.getSecret).toBeCalledWith(
-        config.secret.secretId, config.secret.field.auth0,
-      );
-      expect(mockJwtTokenize.verify)
-        .toBeCalledWith(payload.accessToken, '123');
-    });
-
     it('should orchestrating flow correctly', async () => {
-      mockSecretManager.getSecret = jest.fn(() => Promise.resolve('123'));
-      mockJwtTokenize.verify = jest.fn(() => Promise.resolve(true));
       mockJwtTokenize.decode = jest.fn(() => Promise.resolve({
         sub: 'user-123',
         iss: 'test',
