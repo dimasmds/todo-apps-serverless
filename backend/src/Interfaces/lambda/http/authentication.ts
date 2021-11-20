@@ -3,22 +3,10 @@ import container from '../../../Infrastructures/container';
 import SecretManager from '../../../Applications/security/SecretManager';
 import JwtTokenize from '../../../Applications/tokenize/JwtTokenize';
 import config from '../../../Commons/config';
+import { getTokenFromAuthHeader } from '../../../Commons/utils';
 
 const jwtTokenize = <JwtTokenize> container.getInstance('JwtTokenize');
 const secretManager = <SecretManager> container.getInstance('SecretManager');
-
-const getTokenFromAuthHeader = (authHeader: string) => {
-  if (!authHeader) {
-    throw new Error('No authentication header');
-  }
-
-  if (!authHeader.toLowerCase().startsWith('bearer ')) {
-    throw new Error('Invalid authentication header');
-  }
-
-  const split = authHeader.split(' ');
-  return split[1];
-};
 
 const verifyToken = async (token: string) => {
   const secret = await secretManager.getSecret(
@@ -34,7 +22,6 @@ const decodeToken = async (token: string) => jwtTokenize.decode(token);
 export const handler = async (event: CustomAuthorizerEvent)
   : Promise<CustomAuthorizerResult> => {
   const token = getTokenFromAuthHeader(event.authorizationToken);
-
   const isVerified = await verifyToken(token);
 
   if (!isVerified) {
