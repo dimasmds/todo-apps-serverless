@@ -15,6 +15,7 @@ class AWSSecretsManager implements SecretManager {
   }
 
   async getSecret(secretName: string, secretField: string): Promise<string> {
+    /* istanbul ignore if */
     if (this.cachedSecrets[secretName]) {
       return this.cachedSecrets[secretName];
     }
