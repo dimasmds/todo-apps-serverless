@@ -56,6 +56,28 @@ class TodoRepositoryDynamoDB implements TodoRepository {
 
     return Items as Todo[];
   }
+
+  async delete(todoId: string): Promise<void> {
+    await this.client.delete({
+      TableName: config.dynamodb.todos.name,
+      Key: {
+        todoId,
+      },
+    }).promise();
+  }
+
+  async verifyTodoOwner(todoId: string, userId: string): Promise<boolean> {
+    const { Items } = await this.client.query({
+      TableName: config.dynamodb.todos.name,
+      IndexName: config.dynamodb.todos.userIndex,
+      KeyConditionExpression: 'userId = :userId',
+      ExpressionAttributeValues: {
+        ':userId': userId,
+      },
+    }).promise();
+
+    return Items.some((todo: any) => todo.todoId === todoId);
+  }
 }
 
 export default TodoRepositoryDynamoDB;

@@ -35,6 +35,7 @@ describe('TodoRepositoryDynamoDB', () => {
       expect(foundedTodos[0].attachmentUrl).toEqual('');
     });
   });
+
   describe('update', () => {
     it('should update the existing todo', async () => {
       // Arrange
@@ -71,6 +72,7 @@ describe('TodoRepositoryDynamoDB', () => {
       expect(foundedTodos[0].attachmentUrl).toEqual('');
     });
   });
+
   describe('getTodosByUserId', () => {
     it('should return empty array when theres no todos inside', async () => {
       const todos = await todoRepository.getTodosByUserId('user-123');
@@ -90,6 +92,44 @@ describe('TodoRepositoryDynamoDB', () => {
       expect(todos).toHaveLength(2);
       expect(todos[0].todoId).toEqual('abc-def-2');
       expect(todos[1].todoId).toEqual('abc-def');
+    });
+  });
+
+  describe('verifyTodoOwner', () => {
+    it('should return false if user not owned todo', async () => {
+      // Arrange
+      await DynamoDBTestHelper.insertTodo({ todoId: 'abc-def', userId: 'user-123' });
+
+      // Action
+      const result = await todoRepository.verifyTodoOwner('abc-def', 'user-444');
+
+      // Assert
+      expect(result).toEqual(false);
+    });
+
+    it('should return true if user owned todo', async () => {
+      // Arrange
+      await DynamoDBTestHelper.insertTodo({ todoId: 'abc-def', userId: 'user-123' });
+
+      // Action
+      const result = await todoRepository.verifyTodoOwner('abc-def', 'user-123');
+
+      // Assert
+      expect(result).toEqual(true);
+    });
+  });
+
+  describe('delete', () => {
+    it('should delete todo correctly', async () => {
+      // Arrange
+      await DynamoDBTestHelper.insertTodo({ todoId: 'abc-def' });
+
+      // Action
+      await todoRepository.delete('abc-def');
+
+      // Assert
+      const todos = await DynamoDBTestHelper.findTodosById('abc-def');
+      expect(todos.length).toEqual(0);
     });
   });
 });
