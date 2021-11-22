@@ -17,6 +17,7 @@ const config = {
   dynamodb: {
     todos: {
       name: process.env.TODOS_TABLE,
+      userIndex: process.env.TODOS_BY_USER_INDEX,
     },
   },
   awsSdk: {

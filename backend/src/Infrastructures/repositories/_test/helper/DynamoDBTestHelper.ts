@@ -22,6 +22,30 @@ const DynamoDBTestHelper = {
 
     return result.Items;
   },
+  async insertTodo({
+    todoId = 'todo-123',
+    userId = 'user-123',
+    name = 'Todo Test',
+    done = false,
+    createdAt = 'createdAt_dummy',
+    dueDate = 'dueDate_dummy',
+    attachmentUrl = 'https://example.com',
+  }: any = {}) {
+    const params = {
+      TableName: config.dynamodb.todos.name,
+      Item: {
+        todoId,
+        userId,
+        name,
+        done,
+        createdAt,
+        dueDate,
+        attachmentUrl,
+      },
+    };
+
+    await client.put(params).promise();
+  },
   async cleanTodosTable() {
     const todos = await this.getAllTodos();
 

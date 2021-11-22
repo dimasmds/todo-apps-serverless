@@ -71,4 +71,25 @@ describe('TodoRepositoryDynamoDB', () => {
       expect(foundedTodos[0].attachmentUrl).toEqual('');
     });
   });
+  describe('getTodosByUserId', () => {
+    it('should return empty array when theres no todos inside', async () => {
+      const todos = await todoRepository.getTodosByUserId('user-123');
+      expect(todos).toHaveLength(0);
+    });
+
+    it('should return todos correctly by id', async () => {
+      // Arrange
+      await DynamoDBTestHelper.insertTodo({ todoId: 'abc-def', userId: 'user-123' });
+      await DynamoDBTestHelper.insertTodo({ todoId: 'abc-def-2', userId: 'user-123' });
+      await DynamoDBTestHelper.insertTodo({ todoId: 'abc-def-3', userId: 'user-444' });
+
+      // Action
+      const todos = await todoRepository.getTodosByUserId('user-123');
+
+      // Assert
+      expect(todos).toHaveLength(2);
+      expect(todos[0].todoId).toEqual('abc-def-2');
+      expect(todos[1].todoId).toEqual('abc-def');
+    });
+  });
 });

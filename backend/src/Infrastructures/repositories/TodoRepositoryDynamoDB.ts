@@ -43,6 +43,19 @@ class TodoRepositoryDynamoDB implements TodoRepository {
       },
     }).promise();
   }
+
+  async getTodosByUserId(userId: string): Promise<Todo[]> {
+    const { Items } = await this.client.query({
+      TableName: config.dynamodb.todos.name,
+      IndexName: config.dynamodb.todos.userIndex,
+      KeyConditionExpression: 'userId = :userId',
+      ExpressionAttributeValues: {
+        ':userId': userId,
+      },
+    }).promise();
+
+    return Items as Todo[];
+  }
 }
 
 export default TodoRepositoryDynamoDB;
