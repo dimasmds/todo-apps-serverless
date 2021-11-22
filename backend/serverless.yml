@@ -141,6 +141,39 @@ functions:
         Resource:
           - "*"
 
+  UpdateTodo:
+    handler: src/Interfaces/lambda/http/updateTodo.handler
+    events:
+      - http:
+          path: /todos/{todoId}
+          method: patch
+          cors: true
+          authorizer: Auth
+          request:
+            schema:
+              application/json: ${file(src/Interfaces/lambda/http/models/update-todo-request.json)}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:UpdateItem
+          - dynamodb:GetItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
+      - Effect: Allow
+        Action:
+          - xray:GetSamplingRules
+          - xray:GetSamplingTargets
+          - xray:GetSamplingStatisticSummaries
+          - xray:BatchGetTraces
+          - xray:GetServiceGraph
+          - xray:GetTraceGraph
+          - xray:GetTraceSummaries
+          - xray:GetGroups
+          - xray:GetGroup
+          - xray:PutTraceSegments
+        Resource:
+          - "*"
+
+
 resources:
   Resources:
 

@@ -22,26 +22,6 @@ describe('TodoReplacement', () => {
   };
 
   describe('replace', () => {
-    it('should throw error when due date got invalid format', async () => {
-      const payload = {
-        name: 'newName',
-        dueDate: 'abc',
-        done: true,
-      };
-
-      await expect(todoReplacement.replace(currentTodo, payload)).rejects.toThrowError('TODO_REPLACEMENT.DUE_DATE_SHOULD_YYYY-MM-DD_FORMAT');
-    });
-
-    it('should throw error when due date is in the past', async () => {
-      const payload = {
-        name: 'newName',
-        dueDate: '2020-01-01',
-        done: true,
-      };
-
-      await expect(todoReplacement.replace(currentTodo, payload)).rejects.toThrowError('TODO_REPLACEMENT.DUE_DATE_SHOULD_BE_AFTER_CREATED_DATE');
-    });
-
     it('should replace the todo', async () => {
       const tomorrowInYYYYMMDD = new Date(
         new Date().getTime() + 24 * 60 * 60 * 1000,
