@@ -7,7 +7,7 @@ interface TodoRepository {
   update(todo: TodoUpdate): Promise<void>
   getTodosByUserId(userId: string): Promise<Todo[]>
   verifyTodoOwner(todoId: string, userId: string): Promise<boolean>
-  deleteTodo(todoId: string): Promise<void>
+  delete(todoId: string): Promise<void>
 }
 
 export default TodoRepository;

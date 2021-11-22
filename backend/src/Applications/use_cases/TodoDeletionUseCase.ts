@@ -23,7 +23,7 @@ class TodoDeletionUseCase {
 
     if (!isGranted) throw new Error('TODO_DELETION_USE_CASE.USER_NOT_AN_OWNER');
 
-    await this.todoRepository.deleteTodo(todoId);
+    await this.todoRepository.delete(todoId);
   }
 }
 

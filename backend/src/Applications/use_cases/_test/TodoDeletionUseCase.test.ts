@@ -43,10 +43,10 @@ describe('TodoDeletionUseCase', () => {
       exp: 0,
     }));
     mockTodoRepository.verifyTodoOwner = jest.fn(() => Promise.resolve(true));
-    mockTodoRepository.deleteTodo = jest.fn(() => Promise.resolve());
+    mockTodoRepository.delete = jest.fn(() => Promise.resolve());
 
     await todoDeletionUseCase.execute(payload);
 
-    expect(mockTodoRepository.deleteTodo).toBeCalledWith('123');
+    expect(mockTodoRepository.delete).toBeCalledWith('123');
   });
 });
