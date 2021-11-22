@@ -132,4 +132,17 @@ describe('TodoRepositoryDynamoDB', () => {
       expect(todos.length).toEqual(0);
     });
   });
+
+  describe('getTodoById', () => {
+    it('should return Todo correctly', async () => {
+      // Arrange
+      await DynamoDBTestHelper.insertTodo({ todoId: 'abc-def' });
+
+      // Action
+      const todo = await todoRepository.getTodoById('abc-def');
+
+      // Assert
+      expect(todo.todoId).toEqual('abc-def');
+    });
+  });
 });

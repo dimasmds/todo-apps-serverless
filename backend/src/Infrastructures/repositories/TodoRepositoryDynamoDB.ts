@@ -78,6 +78,17 @@ class TodoRepositoryDynamoDB implements TodoRepository {
 
     return Items.some((todo: any) => todo.todoId === todoId);
   }
+
+  async getTodoById(todoId: string): Promise<Todo> {
+    const { Item } = await this.client.get({
+      TableName: config.dynamodb.todos.name,
+      Key: {
+        todoId,
+      },
+    }).promise();
+
+    return Item as Todo;
+  }
 }
 
 export default TodoRepositoryDynamoDB;
