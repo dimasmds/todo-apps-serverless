@@ -84,6 +84,33 @@ functions:
         Resource:
           - "*"
 
+  GetAllTodos:
+    handler: src/Interfaces/lambda/http/getAllTodos.handler
+    events:
+      - http:
+          path: /todos
+          method: get
+          cors: true
+          authorizer: Auth
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
+      - Effect: Allow
+        Action:
+          - xray:GetSamplingRules
+          - xray:GetSamplingTargets
+          - xray:GetSamplingStatisticSummaries
+          - xray:BatchGetTraces
+          - xray:GetServiceGraph
+          - xray:GetTraceGraph
+          - xray:GetTraceSummaries
+          - xray:GetGroups
+          - xray:GetGroup
+          - xray:PutTraceSegments
+        Resource:
+          - "*"
 
 resources:
   Resources:

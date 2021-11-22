@@ -4,6 +4,7 @@ import JwtTokenizeImpl from './tokenize/JwtTokenizeImpl';
 import TodoRepositoryDynamoDB from './repositories/TodoRepositoryDynamoDB';
 import AWSSecretsManager from './security/AWSSecretsManager';
 import TodoCreationUseCase from '../Applications/use_cases/TodoCreationUseCase';
+import GetAllTodosUseCase from '../Applications/use_cases/GetAllTodosUseCase';
 
 const container = createContainer();
 
@@ -54,6 +55,11 @@ container.register([
   {
     key: TodoCreationUseCase.name,
     Class: TodoCreationUseCase,
+    parameter: useCaseParameter,
+  },
+  {
+    key: GetAllTodosUseCase.name,
+    Class: GetAllTodosUseCase,
     parameter: useCaseParameter,
   },
 ]);
