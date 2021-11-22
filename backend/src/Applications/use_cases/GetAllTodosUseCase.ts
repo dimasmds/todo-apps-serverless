@@ -1,19 +1,24 @@
 import UseCaseDependencies from './definitions/UseCaseDependencies';
 import TodoRepository from '../../Domains/todo/repository/TodoRepository';
+import JwtTokenize from '../tokenize/JwtTokenize';
 
 type UseCasePayload = {
-  userId: string
+  token: string
 }
 
 class GetAllTodosUseCase {
   private todoRepository: TodoRepository;
 
-  constructor({ todoRepository }: UseCaseDependencies) {
+  private jwtTokenize: JwtTokenize;
+
+  constructor({ todoRepository, jwtTokenize }: UseCaseDependencies) {
     this.todoRepository = todoRepository;
+    this.jwtTokenize = jwtTokenize;
   }
 
-  async execute({ userId }: UseCasePayload) {
-    return this.todoRepository.getTodosByUserId(userId);
+  async execute({ token }: UseCasePayload) {
+    const { sub } = await this.jwtTokenize.decode(token);
+    return this.todoRepository.getTodosByUserId(sub);
   }
 }
 

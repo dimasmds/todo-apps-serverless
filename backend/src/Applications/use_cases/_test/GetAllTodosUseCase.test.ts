@@ -1,11 +1,14 @@
 import TodoRepository from '../../../Domains/todo/repository/TodoRepository';
 import GetAllTodosUseCase from '../GetAllTodosUseCase';
 import Todo from '../../../Domains/todo/entities/Todo';
+import JwtTokenize from '../../tokenize/JwtTokenize';
 
 describe('GetAllTodosUseCase', () => {
   const mockTodoRepository = <TodoRepository>{};
+  const mockJwtTokenize = <JwtTokenize>{};
   const getAllTodosUseCase = new GetAllTodosUseCase({
     todoRepository: mockTodoRepository,
+    jwtTokenize: mockJwtTokenize,
   });
 
   it('should orchestrating flow correctly', async () => {
@@ -30,15 +33,21 @@ describe('GetAllTodosUseCase', () => {
       },
     ];
 
+    mockJwtTokenize.decode = jest.fn(() => Promise.resolve({
+      iss: '',
+      sub: 'user-123',
+      iat: 0,
+      exp: 0,
+    }));
     mockTodoRepository.getTodosByUserId = jest.fn(() => Promise.resolve(expectedTodos));
 
-    const payload = { userId: 'user-123' };
+    const payload = { token: 'dummyToken' };
 
     // Action
     const todos = await getAllTodosUseCase.execute(payload);
 
     // Assert
     expect(todos).toEqual(expectedTodos);
-    expect(mockTodoRepository.getTodosByUserId).toBeCalledWith(payload.userId);
+    expect(mockTodoRepository.getTodosByUserId).toBeCalledWith('user-123');
   });
 });
