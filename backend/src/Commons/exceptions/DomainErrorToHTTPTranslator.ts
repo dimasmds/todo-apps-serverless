@@ -8,7 +8,7 @@ class DomainErrorToHTTPTranslator {
     'TODO_REPLACEMENT.DUE_DATE_SHOULD_YYYY-MM-DD_FORMAT': new InvariantError('Due date should have format YYYY-MM-DD'),
     'TODO_REPLACEMENT.DUE_DATE_SHOULD_BE_AFTER_CREATED_DATE': new InvariantError('Due date should be after created date'),
     'TODO_DELETION_USE_CASE.USER_NOT_AN_OWNER': new AuthorizationError('You are not allowed to delete this todo'),
-
+    'TODO_UPDATE_USE_CASE.USER_NOT_AN_OWNER': new AuthorizationError('You are not allowed to update this todo'),
   }
 
   static translate(error: Error) : Error {
