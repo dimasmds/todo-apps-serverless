@@ -5,7 +5,7 @@ import TodoDeletionUseCase from '../TodoDeletionUseCase';
 describe('TodoDeletionUseCase', () => {
   const mockJwtTokenize = <JwtTokenize>{};
   const mockTodoRepository = <TodoRepository>{};
-  const todoDeleteionUseCase = new TodoDeletionUseCase({
+  const todoDeletionUseCase = new TodoDeletionUseCase({
     jwtTokenize: mockJwtTokenize,
     todoRepository: mockTodoRepository,
   });
@@ -25,7 +25,7 @@ describe('TodoDeletionUseCase', () => {
     mockTodoRepository.verifyTodoOwner = jest.fn(() => Promise.resolve(false));
 
     // Action
-    await expect(todoDeleteionUseCase.execute(payload)).rejects.toThrowError('TODO_DELETION_USE_CASE.USER_NOT_AN_OWNER');
+    await expect(todoDeletionUseCase.execute(payload)).rejects.toThrowError('TODO_DELETION_USE_CASE.USER_NOT_AN_OWNER');
     expect(mockJwtTokenize.decode).toBeCalledWith(payload.token);
     expect(mockTodoRepository.verifyTodoOwner).toBeCalledWith(payload.todoId, 'user-123');
   });
@@ -45,7 +45,7 @@ describe('TodoDeletionUseCase', () => {
     mockTodoRepository.verifyTodoOwner = jest.fn(() => Promise.resolve(true));
     mockTodoRepository.deleteTodo = jest.fn(() => Promise.resolve());
 
-    await todoDeleteionUseCase.execute(payload);
+    await todoDeletionUseCase.execute(payload);
 
     expect(mockTodoRepository.deleteTodo).toBeCalledWith('123');
   });
