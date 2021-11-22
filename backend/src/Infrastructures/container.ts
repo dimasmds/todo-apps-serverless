@@ -6,6 +6,7 @@ import AWSSecretsManager from './security/AWSSecretsManager';
 import TodoCreationUseCase from '../Applications/use_cases/TodoCreationUseCase';
 import GetAllTodosUseCase from '../Applications/use_cases/GetAllTodosUseCase';
 import TodoDeletionUseCase from '../Applications/use_cases/TodoDeletionUseCase';
+import TodoUpdateUseCase from '../Applications/use_cases/TodoUpdateUseCase';
 
 const container = createContainer();
 
@@ -66,6 +67,11 @@ container.register([
   {
     key: TodoDeletionUseCase.name,
     Class: TodoDeletionUseCase,
+    parameter: useCaseParameter,
+  },
+  {
+    key: TodoUpdateUseCase.name,
+    Class: TodoUpdateUseCase,
     parameter: useCaseParameter,
   },
 ]);
