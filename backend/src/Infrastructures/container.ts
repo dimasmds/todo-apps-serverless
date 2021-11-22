@@ -5,6 +5,7 @@ import TodoRepositoryDynamoDB from './repositories/TodoRepositoryDynamoDB';
 import AWSSecretsManager from './security/AWSSecretsManager';
 import TodoCreationUseCase from '../Applications/use_cases/TodoCreationUseCase';
 import GetAllTodosUseCase from '../Applications/use_cases/GetAllTodosUseCase';
+import TodoDeletionUseCase from '../Applications/use_cases/TodoDeletionUseCase';
 
 const container = createContainer();
 
@@ -60,6 +61,11 @@ container.register([
   {
     key: GetAllTodosUseCase.name,
     Class: GetAllTodosUseCase,
+    parameter: useCaseParameter,
+  },
+  {
+    key: TodoDeletionUseCase.name,
+    Class: TodoDeletionUseCase,
     parameter: useCaseParameter,
   },
 ]);
