@@ -21,16 +21,18 @@ export const handler = middy(
         }),
       };
     } catch (error: any) {
+      console.error(error);
       const translatedError = DomainErrorToHTTPTranslator.translate(error);
 
       if (translatedError instanceof ClientError) {
         return {
           statusCode: translatedError.statusCode,
-          body: translatedError.message,
+          body: JSON.stringify({
+            message: translatedError.message,
+          }),
         };
       }
 
-      console.error(translatedError);
       return {
         statusCode: 500,
         body: JSON.stringify({
