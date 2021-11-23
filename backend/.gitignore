@@ -6,3 +6,4 @@ coverage
 .dynamodb
 .serverless
 .webpack
+.esbuild

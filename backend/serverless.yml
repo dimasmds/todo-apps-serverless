@@ -4,7 +4,7 @@ service:
 variablesResolutionMode: 20210326
 
 plugins:
-  - serverless-webpack
+  - serverless-esbuild
   - serverless-iam-roles-per-function
   - serverless-dynamodb-local
   - serverless-offline
@@ -125,9 +125,12 @@ functions:
     iamRoleStatements:
       - Effect: Allow
         Action:
-          - dynamodb:Query
           - dynamodb:DeleteItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}/index/${self:provider.environment.TODOS_BY_USER_INDEX}
       - Effect: Allow
         Action:
           - xray:GetSamplingRules
@@ -162,6 +165,10 @@ functions:
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
       - Effect: Allow
         Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}/index/${self:provider.environment.TODOS_BY_USER_INDEX}
+      - Effect: Allow
+        Action:
           - xray:GetSamplingRules
           - xray:GetSamplingTargets
           - xray:GetSamplingStatisticSummaries
@@ -188,6 +195,10 @@ functions:
         Action:
           - s3:PutObject
         Resource: arn:aws:s3:::${self:provider.environment.ATTACHMENTS_BUCKET_NAME}/*
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}/index/${self:provider.environment.TODOS_BY_USER_INDEX}
       - Effect: Allow
         Action:
           - xray:GetSamplingRules
@@ -295,5 +306,19 @@ resources:
                 - DELETE
                 - HEAD
               MaxAge: 3000
+
+    BucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        PolicyDocument:
+          Id: MyPolicy
+          Version: "2012-10-17"
+          Statement:
+            - Sid: PublicReadForGetBucketObjects
+              Effect: Allow
+              Principal: '*'
+              Action: 's3:GetObject'
+              Resource: 'arn:aws:s3:::${self:provider.environment.ATTACHMENTS_BUCKET_NAME}/*'
+        Bucket: !Ref AttachmentsBucket
 
 
