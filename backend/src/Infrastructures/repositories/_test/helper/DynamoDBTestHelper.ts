@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 /* eslint-disable no-restricted-syntax,no-await-in-loop */
 import client from '../../../database/dynamodb/client';
 import config from '../../../../Commons/config';
