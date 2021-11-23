@@ -7,6 +7,8 @@ import TodoCreationUseCase from '../Applications/use_cases/TodoCreationUseCase';
 import GetAllTodosUseCase from '../Applications/use_cases/GetAllTodosUseCase';
 import TodoDeletionUseCase from '../Applications/use_cases/TodoDeletionUseCase';
 import TodoUpdateUseCase from '../Applications/use_cases/TodoUpdateUseCase';
+import S3StorageService from './storage/S3StorageService';
+import UploadAttachmentUseCase from '../Applications/use_cases/UploadAttachmentUseCase';
 
 const container = createContainer();
 
@@ -29,6 +31,10 @@ const useCaseParameter: ParameterOption = {
       name: 'secretManager',
       internal: 'SecretManager',
     },
+    {
+      name: 'storageService',
+      internal: 'StorageService',
+    },
   ],
 };
 
@@ -49,6 +55,10 @@ container.register([
   {
     key: 'SecretManager',
     Class: AWSSecretsManager,
+  },
+  {
+    key: 'StorageService',
+    Class: S3StorageService,
   },
 ]);
 
@@ -72,6 +82,11 @@ container.register([
   {
     key: TodoUpdateUseCase.name,
     Class: TodoUpdateUseCase,
+    parameter: useCaseParameter,
+  },
+  {
+    key: UploadAttachmentUseCase.name,
+    Class: UploadAttachmentUseCase,
     parameter: useCaseParameter,
   },
 ]);
