@@ -50,7 +50,7 @@ describe('TodoCreation', () => {
         createdAt: expect.any(String),
         done: false,
         userId: 'user-123',
-        attachmentUrl: 'https://test-bucket.s3.amazonaws.com/abc-def',
+        attachmentUrl: 'https://dmds-attachments-test-bucket.s3.amazonaws.com/abc-def',
       });
     });
   });

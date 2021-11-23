@@ -23,6 +23,12 @@ const config = {
   awsSdk: {
     region: process.env.AWS_REGION,
   },
+  s3: {
+    attachment: {
+      bucketName: process.env.ATTACHMENTS_BUCKET_NAME,
+      signedUrlExpiration: process.env.SIGNED_URL_EXPIRATION,
+    },
+  },
 };
 
 export default config;

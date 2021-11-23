@@ -32,7 +32,7 @@ class TodoCreation {
       createdAt: new Date().toISOString(),
       dueDate: new Date(dueDate).toISOString(),
       done: false,
-      attachmentUrl: `https://${config.bucket.attachment.name}.s3.amazonaws.com/${todoId}`,
+      attachmentUrl: `https://${config.s3.attachment.bucketName}.s3.amazonaws.com/${todoId}`,
     };
 
     await this.todoRepository.persist(newTodo);

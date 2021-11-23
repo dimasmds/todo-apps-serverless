@@ -38,6 +38,8 @@ provider:
     TODOS_BY_USER_INDEX: TodosByUserIndex
     SECRET_ID: TodoAppsSecret-${self:provider.stage}
     AUTH_0_SECRET_FIELD: auth0ClientSecret
+    ATTACHMENTS_BUCKET_NAME: dmds-todo-apps-attachments-${self:provider.stage}
+    SIGNED_URL_EXPIRATION: 300
 
 functions:
 
@@ -246,5 +248,24 @@ resources:
         Name: ${self:provider.environment.SECRET_ID}
         Description: Auth0 secret
         KmsKeyId: !Ref KMSKey
+
+
+    AttachmentsBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:provider.environment.ATTACHMENTS_BUCKET_NAME}
+        CorsConfiguration:
+          CorsRules:
+            - AllowedOrigins:
+                - '*'
+              AllowedHeaders:
+                - '*'
+              AllowedMethods:
+                - GET
+                - PUT
+                - POST
+                - DELETE
+                - HEAD
+              MaxAge: 3000
 
 
