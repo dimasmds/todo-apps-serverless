@@ -3,11 +3,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const config = {
-  bucket: {
-    attachment: {
-      name: process.env.ATTACHMENT_BUCKET_NAME,
-    },
-  },
   secret: {
     secretId: process.env.SECRET_ID,
     field: {
